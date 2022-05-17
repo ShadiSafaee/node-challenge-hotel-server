@@ -8,7 +8,7 @@ app.use(express.json());
 //body parser:
 
 //Use this array as your (in-memory) data store.
-const bookings = [
+let bookings = [
   {
     id: 1,
     title: "Mr",
@@ -61,10 +61,33 @@ const bookings = [
   },
 ];
 
+//Read one booking, specified by an ID
+app.get("/bookings/:searchId", (req, res) => {
+  const { searchId } = req.params;
+  const searchBooking = bookings.find((booking) => booking.id == searchId);
+  if (searchBooking) {
+    return res.json(searchBooking);
+  } else {
+    return res.status(404).send("id is not valid");
+  }
+});
+
+//Delete a booking, specified by an ID
+app.delete("/bookings/:bookingId", (req, res) => {
+  const { bookingId } = req.params;
+  const deletedBooking = bookings.find((booking) => {
+    return booking.id === Number(bookingId);
+  });
+  if (deletedBooking) {
+    bookings = bookings.filter((item) => item.id !== Number(bookingId));
+    res.json(bookings);
+  } else {
+    res.status(404).json(`no booking with the id of ${bookingId}`);
+  }
+});
 app.get("/", (req, res) => {
   res.send("Hotel booking server.  Ask for /bookings, etc.");
 });
-
 //Create a new booking:
 app.post("/bookings", (req, res) => {
   const {
@@ -91,13 +114,9 @@ app.post("/bookings", (req, res) => {
 });
 
 //Read all bookings
-// app.get("./bookings", (req, res) => {
-//   res.json(bookings);
-// });
-
-//Read one booking, specified by an ID
-
-//Delete a booking, specified by an ID
+app.get("/bookings", (req, res) => {
+  res.json(bookings);
+});
 
 // TODO add your routes and helper functions here
 
