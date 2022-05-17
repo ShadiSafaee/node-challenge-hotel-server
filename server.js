@@ -5,61 +5,67 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-//body parser:
+
+//fs to save json data
+let bookings;
+require("fs").readFile("bookings.json", (err, data) => {
+  if (err) throw err;
+  bookings = JSON.parse(data);
+});
 
 //Use this array as your (in-memory) data store.
-let bookings = [
-  {
-    id: 1,
-    title: "Mr",
-    firstName: "Jimi",
-    surname: "Hendrix",
-    email: "jimi@example.com",
-    roomId: 2,
-    checkInDate: "2017-11-21",
-    checkOutDate: "2017-11-23",
-  },
-  {
-    id: 2,
-    title: "King",
-    firstName: "James",
-    surname: "Brown",
-    email: "jamesbrown@example.com",
-    roomId: 1,
-    checkInDate: "2018-02-15",
-    checkOutDate: "2018-02-28",
-  },
-  {
-    id: 3,
-    title: "Queen",
-    firstName: "Aretha",
-    surname: "Franklin",
-    email: "aretha@example.com",
-    roomId: 5,
-    checkInDate: "2018-03-01",
-    checkOutDate: "2018-04-09",
-  },
-  {
-    id: 4,
-    title: "Mr",
-    firstName: "Stevie",
-    surname: "Wonder",
-    email: "stevie@example.com",
-    roomId: 6,
-    checkInDate: "2017-12-25",
-    checkOutDate: "2018-01-03",
-  },
-  {
-    id: 5,
-    title: "Mr",
-    firstName: "John",
-    surname: "Lennon",
-    email: "lennon@example.com",
-    roomId: 3,
-    checkInDate: "2017-08-30",
-    checkOutDate: "2017-10-02",
-  },
-];
+// let bookings = [
+//   {
+//     id: 1,
+//     title: "Mr",
+//     firstName: "Jimi",
+//     surname: "Hendrix",
+//     email: "jimi@example.com",
+//     roomId: 2,
+//     checkInDate: "2017-11-21",
+//     checkOutDate: "2017-11-23",
+//   },
+//   {
+//     id: 2,
+//     title: "King",
+//     firstName: "James",
+//     surname: "Brown",
+//     email: "jamesbrown@example.com",
+//     roomId: 1,
+//     checkInDate: "2018-02-15",
+//     checkOutDate: "2018-02-28",
+//   },
+//   {
+//     id: 3,
+//     title: "Queen",
+//     firstName: "Aretha",
+//     surname: "Franklin",
+//     email: "aretha@example.com",
+//     roomId: 5,
+//     checkInDate: "2018-03-01",
+//     checkOutDate: "2018-04-09",
+//   },
+//   {
+//     id: 4,
+//     title: "Mr",
+//     firstName: "Stevie",
+//     surname: "Wonder",
+//     email: "stevie@example.com",
+//     roomId: 6,
+//     checkInDate: "2017-12-25",
+//     checkOutDate: "2018-01-03",
+//   },
+//   {
+//     id: 5,
+//     title: "Mr",
+//     firstName: "John",
+//     surname: "Lennon",
+//     email: "lennon@example.com",
+//     roomId: 3,
+//     checkInDate: "2017-08-30",
+//     checkOutDate: "2017-10-02",
+//   },
+// ];
 
 //Read one booking, specified by an ID
 app.get("/bookings/:searchId", (req, res) => {
