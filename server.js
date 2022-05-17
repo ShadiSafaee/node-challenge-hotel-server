@@ -99,6 +99,32 @@ app.post("/bookings", (req, res) => {
     checkInDate,
     checkOutDate,
   } = req.body;
+  if (
+    title === undefined ||
+    firstName === undefined ||
+    surname === undefined ||
+    email === undefined ||
+    roomId === undefined ||
+    checkInDate === undefined ||
+    checkOutDate === undefined
+  ) {
+    const response = `msg: you are missing the ${
+      !title
+        ? "title"
+        : !firstName
+        ? "firstName"
+        : !surname
+        ? "surname"
+        : !email
+        ? "email"
+        : !roomId
+        ? "roomId"
+        : !checkInDate
+        ? "checkInDate"
+        : "checkOutDate"
+    } key`;
+    return res.status(400).json(response);
+  }
   const bookingObject = {
     id: bookings.length,
     title,
